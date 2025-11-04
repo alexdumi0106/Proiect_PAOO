@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/tema1.dir/src/main.cpp.o CMakeFiles/tema1.dir/src/Account.cpp.o -o bin/tema1 
