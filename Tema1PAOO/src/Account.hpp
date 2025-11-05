@@ -11,6 +11,8 @@ class Account {
     public:
         Account(std::string name, double initialAmount);
         ~Account();
+        Account(const Account& other); // copy-constructor
+        Account(Account&& other); // move constructor
 
         void deposit(double sum);
         void withdraw(double sum);

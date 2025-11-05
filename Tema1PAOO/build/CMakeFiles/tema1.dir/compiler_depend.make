@@ -243,6 +243,7 @@ CMakeFiles/tema1.dir/src/main.cpp.o: /home/dumi/PAOO/Tema1PAOO/src/main.cpp \
   /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/13/bits/stl_iterator_base_types.h \
   /usr/include/c++/13/bits/stl_pair.h \
+  /usr/include/c++/13/bits/stl_relops.h \
   /usr/include/c++/13/bits/streambuf.tcc \
   /usr/include/c++/13/bits/streambuf_iterator.h \
   /usr/include/c++/13/bits/string_view.tcc \
@@ -282,6 +283,7 @@ CMakeFiles/tema1.dir/src/main.cpp.o: /home/dumi/PAOO/Tema1PAOO/src/main.cpp \
   /usr/include/c++/13/tuple \
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
+  /usr/include/c++/13/utility \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
@@ -378,6 +380,8 @@ CMakeFiles/tema1.dir/src/main.cpp.o: /home/dumi/PAOO/Tema1PAOO/src/main.cpp \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h
 
 
+/usr/include/c++/13/utility:
+
 /home/dumi/PAOO/Tema1PAOO/src/main.cpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h:
@@ -425,6 +429,8 @@ CMakeFiles/tema1.dir/src/main.cpp.o: /home/dumi/PAOO/Tema1PAOO/src/main.cpp \
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
+
+/usr/include/c++/13/bits/stl_relops.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 

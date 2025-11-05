@@ -149,4 +149,5 @@ CMakeFiles/tema1.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc \
- /home/dumi/PAOO/Tema1PAOO/src/Account.hpp
+ /home/dumi/PAOO/Tema1PAOO/src/Account.hpp /usr/include/c++/13/utility \
+ /usr/include/c++/13/bits/stl_relops.h
