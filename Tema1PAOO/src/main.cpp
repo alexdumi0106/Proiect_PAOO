@@ -4,7 +4,7 @@
 
 Account createTemporaryAccount()
 {
-    Account temporaryAccount("Cont temporar", 400);
+    Account temporaryAccount("Temporary account", 400);
     temporaryAccount.deposit(200);
     return temporaryAccount;
 }
@@ -13,25 +13,14 @@ int main()
 {
     Account myAccount("Alex Dumitrescu", 1000.0);
 
-    std::cout << "Titular: " << myAccount.getAccountHolder() << ".\n";
+    std::cout << "Account name: " << myAccount.getAccountHolder() << ".\n";
     std::cout << "Sold: " << myAccount.getSold() << "\n";
 
     myAccount.deposit(250);
     myAccount.withdraw(150);
 
-    /*Account mySecondAccount = myAccount;
-    std::cout << "Cont nou deschis pe numele: " << mySecondAccount.getAccountHolder() << ".\n";
-    std::cout << "Sold: " << mySecondAccount.getSold() << "\n";
-
-    myAccount.deposit(250);
-    myAccount.withdraw(150);
-
-    myAccount.showTransactions();
-
-    mySecondAccount.deposit(100);
-    mySecondAccount.withdraw(250);
-
-    mySecondAccount.showTransactions();*/
+    Account copiedAccount = myAccount;
+    copiedAccount.showTransactions();
 
     Account mySecondAccount = std::move(myAccount);
     mySecondAccount.showTransactions();

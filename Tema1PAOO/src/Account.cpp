@@ -5,15 +5,17 @@ Account::Account(std::string name, double initialAmount)
     : accountHolder(name), sold(initialAmount), nrTransactions(0)
 {
     transactions = new double[100];
-    std::cout << "Cont creat pentru " << accountHolder << " cu soldul de " << sold << " lei.\n";
+    std::cout << "Account created for user: " << accountHolder << " with sold: " << sold << " lei.\n";
 }
 
 Account::~Account()
 {
-    if(!accountHolder.empty())
+    if (!accountHolder.empty())
     {
         std::cout << "Free memory for account holder: " << accountHolder << ".\n";
-    } else {
+    }
+    else
+    {
         std::cout << "Free memory for an empty (moved-from) account.\n";
     }
     delete[] transactions;
@@ -29,19 +31,19 @@ Account::Account(const Account &other)
         transactions[i] = other.transactions[i];
     }
 
-    std::cout << " Copie creata pentru contul " << accountHolder << ".\n";
+    std::cout << "Copy account created for: " << accountHolder << ".\n";
 }
 
-Account::Account(Account&& other)
-    :accountHolder(std::move(other.accountHolder)), 
-    sold(other.sold), 
-    transactions(other.transactions), 
-    nrTransactions(other.nrTransactions)
+Account::Account(Account &&other)
+    : accountHolder(std::move(other.accountHolder)),
+      sold(other.sold),
+      transactions(other.transactions),
+      nrTransactions(other.nrTransactions)
 {
     other.transactions = nullptr;
     other.sold = 0;
     other.nrTransactions = 0;
-    std::cout << "Resurse mutate de la contul: "<< accountHolder << std::endl;
+    std::cout << "Moved resources from account: " << accountHolder << std::endl;
 }
 
 void Account::deposit(double sum)
@@ -50,7 +52,7 @@ void Account::deposit(double sum)
     {
         transactions[nrTransactions++] = sum;
         sold = sold + sum;
-        std::cout << "A transaction was made in your account. New sold: " << sold << "lei." << std::endl;
+        std::cout << "A transaction of +" << sum << "lei was made in your account. New sold: " << sold << "lei." << std::endl;
     }
     else
     {
@@ -70,7 +72,7 @@ void Account::withdraw(double sum)
         {
             sold = sold - sum;
             transactions[nrTransactions++] = -sum;
-            std::cout << "A transaction was made in your account. The remained sold is: " << sold << " lei" << std::endl;
+            std::cout << "A transaction of -" << sum << "lei was made in your account. The remained sold is: " << sold << " lei" << std::endl;
         }
     }
     else
