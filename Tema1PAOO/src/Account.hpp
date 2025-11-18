@@ -14,6 +14,9 @@ class Account {
         Account(const Account& other); // copy-constructor
         Account(Account&& other); // move constructor
 
+        Account& operator=(const Account& other); // copy-assignment
+        Account& operator=(Account&& other) noexcept; // move assignment
+
         void deposit(double sum);
         void withdraw(double sum);
         double getSold() const;

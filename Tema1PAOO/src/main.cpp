@@ -11,7 +11,7 @@ Account createTemporaryAccount()
 
 int main()
 {
-    Account myAccount("Alex Dumitrescu", 1000.0);
+    /*Account myAccount("Alex Dumitrescu", 1000.0);
 
     std::cout << "Account name: " << myAccount.getAccountHolder() << ".\n";
     std::cout << "Sold: " << myAccount.getSold() << "\n";
@@ -26,7 +26,19 @@ int main()
     mySecondAccount.showTransactions();
 
     Account myThirdAccount = createTemporaryAccount();
-    myThirdAccount.showTransactions();
+    myThirdAccount.showTransactions();*/
+
+    Account a("A", 1000);
+    Account b("B", 500);
+    Account c("C", 200);
+
+    a = b = c;
+
+    a.showTransactions();
+    b.showTransactions();
+    c.showTransactions();
+
+    a = a;
 
     return 0;
 }
