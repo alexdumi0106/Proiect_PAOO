@@ -1,0 +1,3 @@
+/home/dumi/PAOO/Tema3PAOO/build/CMakeFiles/Tema3PAOO.dir
+/home/dumi/PAOO/Tema3PAOO/build/CMakeFiles/edit_cache.dir
+/home/dumi/PAOO/Tema3PAOO/build/CMakeFiles/rebuild_cache.dir
