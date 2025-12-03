@@ -22,11 +22,11 @@ void threadJobCustom(std::shared_ptr<Account> acc) {
 
 int main() {
 
-    // 1) UNIQUE_PTR
+    // Unique_ptr
     std::unique_ptr<BankEntity> u = std::make_unique<Account>("U", 1000);
     u->deposit(50);
 
-    // 2) SHARED_PTR (folosit cu thread-uri)
+    // Share_ptr (folosit cu thread-uri)
     auto accShared = std::make_shared<Account>("Shared", 0);
 
     std::thread t1(threadJobShared, accShared);
@@ -38,7 +38,7 @@ int main() {
     std::cout << "Shared (standard mutex) balance = "
               << accShared->getBalance() << "\n";
 
-    // 3) EXEMPLU CARE NU FUNCȚIONEAZĂ — race condition
+    // Exemplu care nu functioneaza — race condition
     /*
     Account bad("Bad", 0);
 
@@ -52,7 +52,7 @@ int main() {
               << bad.getBalance() << " (WRONG!)\n";
     */
 
-    // 4) EXEMPLU CU MUTEX CUSTOM (LockGuardRAII)
+    // Exemplu cu mutex custom (LockGuardRAII)
     auto accCustom = std::make_shared<Account>("Custom", 0);
 
     std::thread t5(threadJobCustom, accCustom);

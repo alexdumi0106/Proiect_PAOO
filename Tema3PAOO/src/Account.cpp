@@ -2,11 +2,10 @@
 #include <iostream>
 #include <utility>
 
-// -------------------------------------
+
 // Constructor / Destructor — RAII
-// -------------------------------------
 Account::Account(const std::string& owner, double initialValue)
-    : BankEntity(owner),       // <--- apelăm constructorul bazei
+    : BankEntity(owner),       
       balance(initialValue),
       transactions(nullptr),
       nrTransactions(0)
@@ -18,11 +17,10 @@ Account::~Account() {
     delete[] transactions;
 }
 
-// -------------------------------------
+
 // COPY CONSTRUCTOR — deep copy (Item 14)
-// -------------------------------------
 Account::Account(const Account& other)
-    : BankEntity(other),  // copiem și baza
+    : BankEntity(other), 
       balance(other.balance),
       transactions(nullptr),
       nrTransactions(other.nrTransactions)
@@ -32,13 +30,12 @@ Account::Account(const Account& other)
         transactions[i] = other.transactions[i];
 }
 
-// -------------------------------------
+
 // COPY ASSIGNMENT
-// -------------------------------------
 Account& Account::operator=(const Account& other)
 {
     if (this != &other) {
-        BankEntity::operator=(other); // copiem și partea de bază
+        BankEntity::operator=(other);
 
         delete[] transactions;
 
@@ -52,11 +49,9 @@ Account& Account::operator=(const Account& other)
     return *this;
 }
 
-// -------------------------------------
 // MOVE CONSTRUCTOR
-// -------------------------------------
 Account::Account(Account&& other) noexcept
-    : BankEntity(std::move(other)), // mutăm și partea de bază
+    : BankEntity(std::move(other)),
       balance(other.balance),
       transactions(other.transactions),
       nrTransactions(other.nrTransactions)
@@ -66,13 +61,11 @@ Account::Account(Account&& other) noexcept
     other.balance = 0.0;
 }
 
-// -------------------------------------
 // MOVE ASSIGNMENT
-// -------------------------------------
 Account& Account::operator=(Account&& other) noexcept
 {
     if (this != &other) {
-        BankEntity::operator=(std::move(other)); // mutăm baza
+        BankEntity::operator=(std::move(other)); 
 
         delete[] transactions;
 
@@ -87,9 +80,7 @@ Account& Account::operator=(Account&& other) noexcept
     return *this;
 }
 
-// ------------------------------------------------------
 // Deposit protejat cu std::mutex (std::lock_guard)
-// ------------------------------------------------------
 void Account::deposit(double amount)
 {
     std::lock_guard<std::mutex> lg(stdMutex); // RAII standard
@@ -103,9 +94,7 @@ void Account::deposit(double amount)
 
 }
 
-// ------------------------------------------------------
-// Withdraw protejat cu std::mutex (obligatoriu pentru a nu fi abstractă)
-// ------------------------------------------------------
+// Withdraw protejat cu std::mutex (obligatoriu pentru a nu fi abstracta)
 void Account::withdraw(double amount)
 {
     std::lock_guard<std::mutex> lg(stdMutex);
@@ -123,30 +112,28 @@ void Account::withdraw(double amount)
 
 }
 
-// ------------------------------------------------------
-// Fără protecție -> Race condition (caz "NU funcționează")
-// ------------------------------------------------------
+
+// Fara protectie -> Race condition (caz -> NU functioneaza)
 void Account::unsafeDeposit(double amount)
 {
-    balance += amount;   // Fără mutex
-    if (nrTransactions < 100) // ADĂUGAT
+    balance += amount;   
+    if (nrTransactions < 100) 
         transactions[nrTransactions++] = amount;
-    else // ADĂUGAT
-        std::cerr << "Transaction array full (unsafe)!\n"; // ADĂUGAT
+    else 
+        std::cerr << "Transaction array full (unsafe)!\n"; 
 }
 
-// ------------------------------------------------------
+
 // Folosind mutex-ul custom + LockGuardRAII (Item 14)
-// ------------------------------------------------------
 void Account::customDeposit(double amount)
 {
     LockGuardRAII lock(&customMutex); // RAII custom
 
     balance += amount;
-    if (nrTransactions < 100) // ADĂUGAT
+    if (nrTransactions < 100) 
         transactions[nrTransactions++] = amount;
-    else // ADĂUGAT
-        std::cerr << "Transaction array full (custom)!\n"; // ADĂUGAT
+    else 
+        std::cerr << "Transaction array full (custom)!\n"; 
 }
 
 double Account::getBalance() const {
