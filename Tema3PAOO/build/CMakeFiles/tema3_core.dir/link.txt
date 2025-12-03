@@ -1,2 +1,0 @@
-/usr/bin/ar qc bin/libtema3_core.a CMakeFiles/tema3_core.dir/src/Account.cpp.o
-/usr/bin/ranlib bin/libtema3_core.a

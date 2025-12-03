@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/Tema3PAOO.dir/src/main.cpp.o -o bin/Tema3PAOO  bin/libtema3_core.a 
