@@ -1,20 +1,57 @@
-#pragma once
+#ifndef BANKENTITY_HPP
+#define BANKENTITY_HPP
+
 #include <string>
+#include <mutex>
+#include <utility>
 
-class BankEntity {
-    protected:
-        std::string accountHolder;
-        double sold;
-
-    public:
-        BankEntity(std::string name, double initial)
-            : accountHolder(name), sold(initial) {}
-
-        virtual ~BankEntity() = default; // OBLIGATORIU pentru polimorfism
-
-        virtual void deposit(double sum) = 0;
-        virtual void withdraw(double sum) = 0;
-
-        std::string getHolder() const { return accountHolder; }
-        double getSold() const { return sold; }
+// ---------------------------
+// C-style Mutex struct
+// ---------------------------
+struct Mutex {
+    std::mutex mtx;
 };
+
+// ---------------------------
+// Declarații lock/unlock
+// (implementate în BankEntity.cpp)
+// ---------------------------
+void lock(Mutex* pm);
+void unlock(Mutex* pm);
+
+// ---------------------------
+// RAII LockGuard (Item 14)
+// ---------------------------
+class LockGuardRAII {
+private:
+    Mutex* mutexPtr;
+
+    // Interzicem copierea — conform Item 14
+    LockGuardRAII(const LockGuardRAII&) = delete;
+    LockGuardRAII& operator=(const LockGuardRAII&) = delete;
+
+public:
+    explicit LockGuardRAII(Mutex* pm);
+    ~LockGuardRAII();
+};
+
+// ---------------------------
+// Clasa abstractă BankEntity
+// ---------------------------
+class BankEntity {
+protected:
+    std::string owner;
+
+public:
+    explicit BankEntity(std::string name)
+        : owner(std::move(name)) {}
+
+    virtual ~BankEntity() = default;
+
+    virtual void deposit(double amount) = 0;
+    virtual void withdraw(double amount) = 0;
+
+    std::string getOwner() const { return owner; }
+};
+
+#endif

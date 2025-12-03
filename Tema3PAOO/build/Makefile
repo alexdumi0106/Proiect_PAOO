@@ -153,6 +153,30 @@ src/Account.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Tema3PAOO.dir/build.make CMakeFiles/Tema3PAOO.dir/src/Account.cpp.s
 .PHONY : src/Account.cpp.s
 
+src/BankEntity.o: src/BankEntity.cpp.o
+.PHONY : src/BankEntity.o
+
+# target to build an object file
+src/BankEntity.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Tema3PAOO.dir/build.make CMakeFiles/Tema3PAOO.dir/src/BankEntity.cpp.o
+.PHONY : src/BankEntity.cpp.o
+
+src/BankEntity.i: src/BankEntity.cpp.i
+.PHONY : src/BankEntity.i
+
+# target to preprocess a source file
+src/BankEntity.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Tema3PAOO.dir/build.make CMakeFiles/Tema3PAOO.dir/src/BankEntity.cpp.i
+.PHONY : src/BankEntity.cpp.i
+
+src/BankEntity.s: src/BankEntity.cpp.s
+.PHONY : src/BankEntity.s
+
+# target to generate assembly for a file
+src/BankEntity.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Tema3PAOO.dir/build.make CMakeFiles/Tema3PAOO.dir/src/BankEntity.cpp.s
+.PHONY : src/BankEntity.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -189,6 +213,9 @@ help:
 	@echo "... src/Account.o"
 	@echo "... src/Account.i"
 	@echo "... src/Account.s"
+	@echo "... src/BankEntity.o"
+	@echo "... src/BankEntity.i"
+	@echo "... src/BankEntity.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

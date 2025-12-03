@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/Tema3PAOO.dir/src/Account.cpp.o CMakeFiles/Tema3PAOO.dir/src/main.cpp.o -o bin/Tema3PAOO 
+/usr/bin/c++ CMakeFiles/Tema3PAOO.dir/src/Account.cpp.o CMakeFiles/Tema3PAOO.dir/src/BankEntity.cpp.o CMakeFiles/Tema3PAOO.dir/src/main.cpp.o -o bin/Tema3PAOO 

@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Tema3PAOO.dir/src/Account.cpp.o"
   "CMakeFiles/Tema3PAOO.dir/src/Account.cpp.o.d"
+  "CMakeFiles/Tema3PAOO.dir/src/BankEntity.cpp.o"
+  "CMakeFiles/Tema3PAOO.dir/src/BankEntity.cpp.o.d"
   "CMakeFiles/Tema3PAOO.dir/src/main.cpp.o"
   "CMakeFiles/Tema3PAOO.dir/src/main.cpp.o.d"
   "bin/Tema3PAOO"

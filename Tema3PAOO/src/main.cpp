@@ -5,47 +5,64 @@
 #include "BankEntity.hpp"
 #include "Account.hpp"
 
-void threadJob(std::shared_ptr<BankEntity> acc, int id) {
-    acc->deposit(10);
+void threadJobShared(std::shared_ptr<Account> acc) {
+    for (int i = 0; i < 10; i++)
+        acc->deposit(1);
 }
 
-int main()
-{
-    std::unique_ptr<BankEntity> acc = std::make_unique<Account>("Unique", 1000);
-    auto accShared = std::make_shared<Account>("Shared", 200);
+void threadJobUnsafe(Account* acc) {
+    for (int i = 0; i < 10; i++)
+        acc->unsafeDeposit(1);
+}
 
-    auto a = std::make_shared<Account>("Threaded", 500);
+void threadJobCustom(std::shared_ptr<Account> acc) {
+    for (int i = 0; i < 10; i++)
+        acc->customDeposit(1);
+}
 
-    std::thread t1(threadJob, a, 1);
-    std::thread t2(threadJob, a, 2);
+int main() {
+
+    // 1) UNIQUE_PTR
+    std::unique_ptr<BankEntity> u = std::make_unique<Account>("U", 1000);
+    u->deposit(50);
+
+    // 2) SHARED_PTR (folosit cu thread-uri)
+    auto accShared = std::make_shared<Account>("Shared", 0);
+
+    std::thread t1(threadJobShared, accShared);
+    std::thread t2(threadJobShared, accShared);
 
     t1.join();
     t2.join();
 
+    std::cout << "Shared (standard mutex) balance = "
+              << accShared->getBalance() << "\n";
+
+    // 3) EXEMPLU CARE NU FUNCȚIONEAZĂ — race condition
     /*
-    auto bad = std::make_shared<Account>("Bad", 300);
+    Account bad("Bad", 0);
 
-    std::thread t1([&](){ bad->deposit(10); });
-    std::thread t2([&](){ bad->deposit(10); });
+    std::thread t3(threadJobUnsafe, &bad);
+    std::thread t4(threadJobUnsafe, &bad);
 
-    t1.join();
-    t2.join();
-    // unpredictable behavior — unprotected shared resource
+    t3.join();
+    t4.join();
+
+    std::cout << "Unsafe (no mutex) balance = "
+              << bad.getBalance() << " (WRONG!)\n";
     */
 
-    /*
-    std::unique_ptr<Account> a = std::make_unique<Account>("A", 100);
-    std::unique_ptr<Account> b = a; // ERROR — copy forbidden
-    */
+    // 4) EXEMPLU CU MUTEX CUSTOM (LockGuardRAII)
+    auto accCustom = std::make_shared<Account>("Custom", 0);
 
-    /*
-    auto sp = std::make_shared<Account>("Dangling", 100);
-    Account* raw = sp.get();
-    sp.reset();
-    // raw->deposit(10); // CRASH — use after free
-    */
+    std::thread t5(threadJobCustom, accCustom);
+    std::thread t6(threadJobCustom, accCustom);
 
+    t5.join();
+    t6.join();
 
+    std::cout << "Custom mutex RAII balance = "
+              << accCustom->getBalance() << "\n";
 
     return 0;
 }

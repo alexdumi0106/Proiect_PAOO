@@ -1,25 +1,38 @@
-#pragma once
+#ifndef ACCOUNT_HPP
+#define ACCOUNT_HPP
+
 #include "BankEntity.hpp"
 #include <mutex>
 
 class Account : public BankEntity {
 private:
+    double balance;
     double* transactions;
     int nrTransactions;
-    mutable std::mutex m;  // mutex RAII-protected zone
+
+    // mutex standard
+    std::mutex stdMutex;
+
+    // mutex custom RAII
+    Mutex customMutex;
 
 public:
-    Account(std::string name, double initialAmount);
-    virtual ~Account();
+    Account(const std::string& owner, double initialValue);
+    ~Account();
 
     Account(const Account& other);
-    Account(Account&& other) noexcept;
-
     Account& operator=(const Account& other);
+
+    Account(Account&& other) noexcept;
     Account& operator=(Account&& other) noexcept;
 
-    void deposit(double sum) override;
-    void withdraw(double sum) override;
+    void deposit(double amount) override;
+    void withdraw(double amount) override;      // <--- NOU
 
-    void showTransactions() const;
+    void unsafeDeposit(double amount);         // fără mutex, pentru demonstrații
+    void customDeposit(double amount);         // RAII custom mutex
+
+    double getBalance() const;
 };
+
+#endif

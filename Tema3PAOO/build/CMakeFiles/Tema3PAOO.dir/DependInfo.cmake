@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/dumi/PAOO/Tema3PAOO/src/Account.cpp" "CMakeFiles/Tema3PAOO.dir/src/Account.cpp.o" "gcc" "CMakeFiles/Tema3PAOO.dir/src/Account.cpp.o.d"
+  "/home/dumi/PAOO/Tema3PAOO/src/BankEntity.cpp" "CMakeFiles/Tema3PAOO.dir/src/BankEntity.cpp.o" "gcc" "CMakeFiles/Tema3PAOO.dir/src/BankEntity.cpp.o.d"
   "/home/dumi/PAOO/Tema3PAOO/src/main.cpp" "CMakeFiles/Tema3PAOO.dir/src/main.cpp.o" "gcc" "CMakeFiles/Tema3PAOO.dir/src/main.cpp.o.d"
   )
 

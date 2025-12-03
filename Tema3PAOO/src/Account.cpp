@@ -1,98 +1,154 @@
 #include "Account.hpp"
 #include <iostream>
+#include <utility>
 
-
-// Constructor
-Account::Account(std::string name, double initialAmount)
-    : BankEntity(name, initialAmount), nrTransactions(0)
+// -------------------------------------
+// Constructor / Destructor — RAII
+// -------------------------------------
+Account::Account(const std::string& owner, double initialValue)
+    : BankEntity(owner),       // <--- apelăm constructorul bazei
+      balance(initialValue),
+      transactions(nullptr),
+      nrTransactions(0)
 {
     transactions = new double[100];
-    std::cout << "Account created for " << accountHolder << "\n";
 }
 
-// Destructor
 Account::~Account() {
     delete[] transactions;
 }
 
-// Copy constructor
+// -------------------------------------
+// COPY CONSTRUCTOR — deep copy (Item 14)
+// -------------------------------------
 Account::Account(const Account& other)
-    : BankEntity(other.accountHolder, other.sold),
+    : BankEntity(other),  // copiem și baza
+      balance(other.balance),
+      transactions(nullptr),
       nrTransactions(other.nrTransactions)
 {
     transactions = new double[100];
     for (int i = 0; i < nrTransactions; i++)
         transactions[i] = other.transactions[i];
-
-    std::cout << "Copy constructor called for " << accountHolder << "\n";
 }
 
-// Move constructor
+// -------------------------------------
+// COPY ASSIGNMENT
+// -------------------------------------
+Account& Account::operator=(const Account& other)
+{
+    if (this != &other) {
+        BankEntity::operator=(other); // copiem și partea de bază
+
+        delete[] transactions;
+
+        balance = other.balance;
+        nrTransactions = other.nrTransactions;
+
+        transactions = new double[100];
+        for (int i = 0; i < nrTransactions; i++)
+            transactions[i] = other.transactions[i];
+    }
+    return *this;
+}
+
+// -------------------------------------
+// MOVE CONSTRUCTOR
+// -------------------------------------
 Account::Account(Account&& other) noexcept
-    : BankEntity(std::move(other.accountHolder), other.sold),
+    : BankEntity(std::move(other)), // mutăm și partea de bază
+      balance(other.balance),
       transactions(other.transactions),
       nrTransactions(other.nrTransactions)
 {
     other.transactions = nullptr;
-    other.sold = 0;
     other.nrTransactions = 0;
-
-    std::cout << "Move constructor called for " << accountHolder << "\n";
+    other.balance = 0.0;
 }
 
-// Copy assignment
-Account& Account::operator=(const Account& other)
-{
-    if (this == &other)
-        return *this;
-
-    accountHolder = other.accountHolder;
-    sold = other.sold;
-    nrTransactions = other.nrTransactions;
-
-    delete[] transactions;
-    transactions = new double[100];
-
-    for (int i = 0; i < nrTransactions; i++)
-        transactions[i] = other.transactions[i];
-
-    std::cout << "Copy assignment called for " << accountHolder << "\n";
-
-    return *this;
-}
-
-// Move assignment
+// -------------------------------------
+// MOVE ASSIGNMENT
+// -------------------------------------
 Account& Account::operator=(Account&& other) noexcept
 {
-    if (this == &other)
-        return *this;
+    if (this != &other) {
+        BankEntity::operator=(std::move(other)); // mutăm baza
 
-    accountHolder = std::move(other.accountHolder);
-    sold = other.sold;
-    nrTransactions = other.nrTransactions;
+        delete[] transactions;
 
-    delete[] transactions;
-    transactions = other.transactions;
+        balance = other.balance;
+        transactions = other.transactions;
+        nrTransactions = other.nrTransactions;
 
-    other.transactions = nullptr;
-    other.nrTransactions = 0;
-    other.sold = 0;
-
-    std::cout << "Move assignment called for " << accountHolder << "\n";
-
+        other.transactions = nullptr;
+        other.nrTransactions = 0;
+        other.balance = 0.0;
+    }
     return *this;
 }
 
-// Deposit & withdraw
-void Account::deposit(double sum) {
-    std::lock_guard<std::mutex> lock(m);
-    transactions[nrTransactions++] = sum;
-    sold += sum;
+// ------------------------------------------------------
+// Deposit protejat cu std::mutex (std::lock_guard)
+// ------------------------------------------------------
+void Account::deposit(double amount)
+{
+    std::lock_guard<std::mutex> lg(stdMutex); // RAII standard
+
+    balance += amount;
+    if (nrTransactions < 100)
+        transactions[nrTransactions++] = amount;
+    else
+        std::cerr << "Transaction array full!\n";
+
+
 }
-void Account::withdraw(double sum) {
-    std::lock_guard<std::mutex> lock(m);
-    if (sum <= sold) {
-        transactions[nrTransactions++] = -sum;
-        sold -= sum;
+
+// ------------------------------------------------------
+// Withdraw protejat cu std::mutex (obligatoriu pentru a nu fi abstractă)
+// ------------------------------------------------------
+void Account::withdraw(double amount)
+{
+    std::lock_guard<std::mutex> lg(stdMutex);
+
+    if (amount > balance) {
+        std::cerr << "Insufficient funds for withdrawal\n";
+        return;
     }
+
+    balance -= amount;
+    if (nrTransactions < 100)
+        transactions[nrTransactions++] = -amount;
+    else
+        std::cerr << "Transaction array full!\n";
+
+}
+
+// ------------------------------------------------------
+// Fără protecție -> Race condition (caz "NU funcționează")
+// ------------------------------------------------------
+void Account::unsafeDeposit(double amount)
+{
+    balance += amount;   // Fără mutex
+    if (nrTransactions < 100) // ADĂUGAT
+        transactions[nrTransactions++] = amount;
+    else // ADĂUGAT
+        std::cerr << "Transaction array full (unsafe)!\n"; // ADĂUGAT
+}
+
+// ------------------------------------------------------
+// Folosind mutex-ul custom + LockGuardRAII (Item 14)
+// ------------------------------------------------------
+void Account::customDeposit(double amount)
+{
+    LockGuardRAII lock(&customMutex); // RAII custom
+
+    balance += amount;
+    if (nrTransactions < 100) // ADĂUGAT
+        transactions[nrTransactions++] = amount;
+    else // ADĂUGAT
+        std::cerr << "Transaction array full (custom)!\n"; // ADĂUGAT
+}
+
+double Account::getBalance() const {
+    return balance;
 }

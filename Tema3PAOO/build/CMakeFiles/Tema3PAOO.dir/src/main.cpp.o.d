@@ -176,4 +176,6 @@ CMakeFiles/Tema3PAOO.dir/src/main.cpp.o: \
  /usr/include/c++/13/mutex /usr/include/c++/13/bits/std_mutex.h \
  /usr/include/c++/13/bits/unique_lock.h \
  /home/dumi/PAOO/Tema3PAOO/include/BankEntity.hpp \
- /home/dumi/PAOO/Tema3PAOO/include/Account.hpp
+ /usr/include/c++/13/utility /usr/include/c++/13/bits/stl_relops.h \
+ /home/dumi/PAOO/Tema3PAOO/include/Account.hpp \
+ /home/dumi/PAOO/Tema3PAOO/include/BankEntity.hpp
