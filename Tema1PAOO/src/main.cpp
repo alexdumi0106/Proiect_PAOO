@@ -28,7 +28,7 @@ int main()
     Account myThirdAccount = createTemporaryAccount();
     myThirdAccount.showTransactions();*/
 
-    /*Account a("A", 1000);
+    Account a("A", 1000);
     Account b("B", 500);
     Account c("C", 200);
 
@@ -39,9 +39,9 @@ int main()
     b.showTransactions();
     c.showTransactions();
 
-    a = a;*/
+    a = a;
 
-    std::cout<<"Exemplu cu copy-assignment. Cont secundar in cazul unei probleme cu principalul cont.\n";
+    /*std::cout<<"Exemplu cu copy-assignment. Cont secundar in cazul unei probleme cu principalul cont.\n";
     Account masterCard("Alex Dumitrescu", 1500.0);
     masterCard.deposit(500);
     masterCard.withdraw(700);
@@ -81,7 +81,7 @@ int main()
     newServerMasterCard.showTransactions();
 
     std::cout<<"Account from old server, after moving:\n";
-    oldServerMasterCard.showTransactions();
+    oldServerMasterCard.showTransactions();*/
 
     return 0;
 }
